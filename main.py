@@ -1,3 +1,4 @@
+from alpha_beta import Alpha_Beta_Tree
 import simple_gui
 import chessboard
 import numpy as np
@@ -16,9 +17,10 @@ if __name__ == '__main__':
             if Round == 0:
                 x, y = 7, 7
             elif (Round & 1) == AI:
-                x, y = simple_gui.Player_Choose()
+                tree = Alpha_Beta_Tree(board)
+                x, y = tree.choose(sp = (Round == 2))
             else:
-                x, y = simple_gui.Player_Choose()
+                x, y = simple_gui.Player_Choose(Round)
             if board.update(x, y, Round & 1) == True:
                 break
         if board.check_win():
