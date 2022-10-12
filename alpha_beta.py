@@ -12,7 +12,7 @@ class Alpha_Beta_Tree:
 
     def calc_val(self, parent_val, sp:bool, dep:int = LAYER_THRESH):
         if (dep >= LAYER_THRESH) | (self.board.check_win()):
-            return self.board.cal(), -1, -1
+            return self.board.getvalue(), -1, -1
 
         if dep & 1:
             # parent wants to maximize

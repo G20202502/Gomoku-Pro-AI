@@ -1,6 +1,5 @@
 from distutils import dir_util
 import numpy as np
-
 class ChessBoard:
     direction = np.array([[1, 0], [0, 1], [1, 1], [1, -1]])
     score_list1=[
@@ -32,7 +31,8 @@ class ChessBoard:
     (-20000,(2,2,2,2,2))] 
     def __init__(self):
         self.board = np.full((15, 15), -1)
-
+        self.current_val=0
+        self.temp=0
     def __str__(self):
         ret = '  '
         for i in range(15):
@@ -60,12 +60,18 @@ class ChessBoard:
             self.board[x, y] = color
             self.latest_x = x
             self.latest_y = y
+            self.temp=self.cal()
+            self.current_val+=self.temp
+            ##print(self.temp)
+            ##print(self.current_val)
             return True
         return False
     def backward(self, x, y):
+        self.temp=self.cal()
         self.board[self.latest_x, self.latest_y] = -1
         self.latest_x = x
-        self.latest_y = y   
+        self.latest_y = y
+        self.current_val-=self.temp
     def check_win(self) -> bool:
         pos = np.array([self.latest_x, self.latest_y])
 
@@ -92,53 +98,45 @@ class ChessBoard:
                 return True
 
         return False
-    def cal(self):
+    def cal(self):                           
         x=self.latest_x
         y=self.latest_y
-        temp=self.board[x,y]
-        score=0
+        weigh=120-(x-7.5)*(x-7.5)-(y-7.5)*(y-7.5)
+        ##coe=1-2*self.board[x,y]
+        score=weigh                                    
         for d in range(4):
             dx=self.direction[d,0]
             dy=self.direction[d,1]
             for i in range(0,6):
                 position=[]
+                pos2=[]
                 for j in range(0,6):
                     newx=x+(j-i)*dx
                     newy=y+(j-i)*dy
                     if (ChessBoard.in_bound(newx,newy)):
                         position.append(self.board[newx,newy]+1)
+                        if (newx,newy) == (x,y):
+                            pos2.append(0)
+                        else:
+                            pos2.append(self.board[newx,newy]+1)
                     else:
                         break
                     if j==5:
                         pos_5=tuple(k for k in position[0: -1])
                         pos_6=tuple(position)
+                        pos2_5=tuple(k for k in pos2[0: -1])
+                        pos2_6=tuple(pos2)
                         for value,match in self.score_list1:
                             if pos_5==match:
                                 score+=value
-                            else:
-                                if pos_6==match:
-                                    score+=value
-        self.board[x,y] = -1
-        for d in range(4):
-            dx=self.direction[d,0]
-            dy=self.direction[d,1]
-            for i in range(0,6):
-                position=[]
-                for j in range(0,6):
-                    newx=x+(j-i)*dx
-                    newy=y+(j-i)*dy
-                    if (ChessBoard.in_bound(newx,newy)):
-                        position.append(self.board[newx,newy]+1)
-                    else:
-                        break
-                    if j==5:
-                        pos_5=tuple(k for k in position[0: -1])
-                        pos_6=tuple(position)
-                        for value,match in self.score_list1:
-                            if pos_5==match:
+                            if pos_6==match:
+                                score+=value
+                            if pos2_5==match:
                                 score-=value
-                            else:
-                                if pos_6==match:
-                                    score-=value
-        self.board[x,y] = temp  
+                            if pos2_6 == match:
+                                score-=value 
+        
         return score
+    def getvalue(self):
+        ##coe=1-2*self.board[self.latest_x,self.latest_y]
+        return self.current_val
