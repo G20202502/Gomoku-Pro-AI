@@ -122,6 +122,7 @@ class ChessBoard:
         x=self.latest_x
         y=self.latest_y
         weigh=120-(x-7.5)*(x-7.5)-(y-7.5)*(y-7.5)
+        weigh=weigh*(1-2*self.board[x,y])
         ##coe=1-2*self.board[x,y]
         score=weigh                                    
         for d in range(4):
