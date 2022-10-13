@@ -66,12 +66,12 @@ class ChessBoard:
             ##print(self.current_val)
             return True
         return False
-    def backward(self, x, y):
-        self.temp=self.cal()
+    def backward(self, x, y, t):
+        ##self.temp=self.cal()
         self.board[self.latest_x, self.latest_y] = -1
         self.latest_x = x
         self.latest_y = y
-        self.current_val-=self.temp
+        self.current_val-=t
     def check_win(self) -> bool:
         pos = np.array([self.latest_x, self.latest_y])
 
@@ -140,3 +140,5 @@ class ChessBoard:
     def getvalue(self):
         ##coe=1-2*self.board[self.latest_x,self.latest_y]
         return self.current_val
+    def gettemp(self):
+        return self.temp

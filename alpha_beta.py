@@ -31,16 +31,16 @@ class Alpha_Beta_Tree:
                         lastet_x, lastet_y = self.board.latest_x, self.board.latest_y
                         current_color = 1 - self.board.board[lastet_x, lastet_y]
                         self.board.update(i, j, current_color)
-
+                        temp=self.board.gettemp()
                         child_val, _useless0, _useless1 = self.calc_val(ret, sp, dep + 1)
                         if child_val < ret:
                             ret = child_val
                             ret_x, ret_y = i, j
                             if ret <= parent_val:
-                                self.board.backward(lastet_x, lastet_y)
+                                self.board.backward(lastet_x, lastet_y, temp)
                                 return ret, -1, -1
 
-                        self.board.backward(lastet_x, lastet_y)
+                        self.board.backward(lastet_x, lastet_y, temp)
         else:
             # parent wants to minimize
             # current wants to maximize
@@ -53,16 +53,16 @@ class Alpha_Beta_Tree:
                         lastet_x, lastet_y = self.board.latest_x, self.board.latest_y
                         current_color = 1 - self.board.board[lastet_x, lastet_y]
                         self.board.update(i ,j, current_color)
-
+                        temp=self.board.gettemp()
                         child_val, _useless0, _useless1 = self.calc_val(ret, sp, dep + 1)
                         if child_val > ret:
                             ret = child_val
                             ret_x, ret_y = i, j
                             if ret >= parent_val:
-                                self.board.backward(lastet_x, lastet_y)
+                                self.board.backward(lastet_x, lastet_y, temp)
                                 return ret, -1, -1
                         
-                        self.board.backward(lastet_x, lastet_y)
+                        self.board.backward(lastet_x, lastet_y, temp)
 
         return ret, ret_x, ret_y
     
