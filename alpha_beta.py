@@ -67,5 +67,5 @@ class Alpha_Beta_Tree:
         return ret, ret_x, ret_y
     
     def choose(self, sp:bool = False):
-        ret, x, y = self.calc_val(INF, sp, 0)
+        ret, x, y = self.calc_val(2*INF, sp, 0)
         return x, y

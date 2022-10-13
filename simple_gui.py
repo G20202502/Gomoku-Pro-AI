@@ -18,7 +18,7 @@ def Render_Round(round: int, board: chessboard.ChessBoard) -> None:
     
     print('========', strlist[round&1], '========\n\n')
     if round > 0:
-        print('Last player choosed: {}  {}.', board.latest_x, board.latest_y)
+        print('Last player choosed: {}  {}.' .format(board.latest_x, board.latest_y))
     print(board, '\n')
     print('=====================')
 

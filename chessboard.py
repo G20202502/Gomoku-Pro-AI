@@ -45,7 +45,7 @@ class ChessBoard:
             ret += '%3d' % i + ' '
             for j in range(15):
                 if self.board[i, j] == -1:
-                    ret += '*  '
+                    ret += '·  '
                 elif self.board[i, j] == 0:
                     ret += 'X  '
                 else:
