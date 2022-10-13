@@ -9,14 +9,15 @@ INF = 1000000
 class Alpha_Beta_Tree:
     def __init__(self, board: ChessBoard = None):
         self.board = board
+        self.root_color = 1 - board.board[board.latest_x, board.latest_y]
 
     def calc_val(self, parent_val, sp:bool, dep:int = LAYER_THRESH):
         if dep >= LAYER_THRESH:
-            return self.board.getvalue(), -1, -1
+            return self.board.getvalue() * (1 - self.root_color*2), self.board.latest_x, self.board.latest_y
         if self.board.check_win():
             if dep & 1:
-                return INF, -1, -1
-            return -INF, -1, -1
+                return INF, self.board.latest_x, self.board.latest_y
+            return -INF, self.board.latest_x, self.board.latest_y
 
         if dep & 1:
             # parent wants to maximize
