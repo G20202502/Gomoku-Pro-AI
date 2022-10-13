@@ -27,7 +27,7 @@ class Alpha_Beta_Tree:
                 for j in range(15):
                     if sp & (5 <= i) & (i <= 9) & (5 <= j) & (j <= 9):
                         continue
-                    if self.board.board[i, j] == -1:
+                    if (self.board.board[i, j] == -1) & (self.board.cnt_grid[i, j] > 0):
                         lastet_x, lastet_y = self.board.latest_x, self.board.latest_y
                         current_color = 1 - self.board.board[lastet_x, lastet_y]
                         self.board.update(i, j, current_color)
@@ -49,7 +49,7 @@ class Alpha_Beta_Tree:
                 for j in range(15):
                     if sp & (5 <= i) & (i <= 9) & (5 <= j) & (j <= 9):
                         continue
-                    if self.board.board[i, j] == -1:
+                    if (self.board.board[i, j] == -1) & (self.board.cnt_grid[i, j] > 0):
                         lastet_x, lastet_y = self.board.latest_x, self.board.latest_y
                         current_color = 1 - self.board.board[lastet_x, lastet_y]
                         self.board.update(i ,j, current_color)

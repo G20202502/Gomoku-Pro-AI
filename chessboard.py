@@ -29,10 +29,13 @@ class ChessBoard:
     (-200,(0,2,2,2,2)),
     (-200,(2,2,2,2,0)),
     (-20000,(2,2,2,2,2))] 
+
     def __init__(self):
         self.board = np.full((15, 15), -1)
         self.current_val=0
         self.temp=0
+        self.cnt_grid = np.zeros((15, 15))
+
     def __str__(self):
         ret = '  '
         for i in range(15):
@@ -44,9 +47,9 @@ class ChessBoard:
                 if self.board[i, j] == -1:
                     ret += '*  '
                 elif self.board[i, j] == 0:
-                    ret += 'x  '
+                    ret += 'X  '
                 else:
-                    ret += 'o  '
+                    ret += 'O  '
             ret += '\n'
         return ret
 
@@ -62,16 +65,32 @@ class ChessBoard:
             self.latest_y = y
             self.temp=self.cal()
             self.current_val+=self.temp
+
+            for d in ChessBoard.direction:
+                for i in range(-2, 3):
+                   nx = x + i * d[0]
+                   ny = y + i * d[1]
+                   if ChessBoard.in_bound(nx, ny):
+                       self.cnt_grid[nx, ny] += 1
+
             ##print(self.temp)
             ##print(self.current_val)
             return True
         return False
+
     def backward(self, x, y, t):
         ##self.temp=self.cal()
         self.board[self.latest_x, self.latest_y] = -1
+        for d in ChessBoard.direction:
+            for i in range(-2, 3):
+                nx = self.latest_x + i * d[0]
+                ny = self.latest_y + i * d[1]
+                if ChessBoard.in_bound(nx, ny):
+                    self.cnt_grid[nx, ny] -= 1
         self.latest_x = x
         self.latest_y = y
         self.current_val-=t
+
     def check_win(self) -> bool:
         pos = np.array([self.latest_x, self.latest_y])
 
@@ -98,6 +117,7 @@ class ChessBoard:
                 return True
 
         return False
+
     def cal(self):                           
         x=self.latest_x
         y=self.latest_y
@@ -137,8 +157,10 @@ class ChessBoard:
                                 score-=value 
         
         return score
+
     def getvalue(self):
         ##coe=1-2*self.board[self.latest_x,self.latest_y]
         return self.current_val
+
     def gettemp(self):
         return self.temp
