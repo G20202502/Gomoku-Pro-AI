@@ -38,6 +38,7 @@ class Alpha_Beta_Tree:
                             ret_x, ret_y = i, j
                             if ret <= parent_val:
                                 self.board.backward(lastet_x, lastet_y, temp)
+                                ###print('yes')
                                 return ret, -1, -1
 
                         self.board.backward(lastet_x, lastet_y, temp)
@@ -60,6 +61,7 @@ class Alpha_Beta_Tree:
                             ret_x, ret_y = i, j
                             if ret >= parent_val:
                                 self.board.backward(lastet_x, lastet_y, temp)
+                                ##print('no')
                                 return ret, -1, -1
                         
                         self.board.backward(lastet_x, lastet_y, temp)

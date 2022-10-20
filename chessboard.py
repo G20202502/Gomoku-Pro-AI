@@ -2,34 +2,32 @@ from distutils import dir_util
 import numpy as np
 class ChessBoard:
     direction = np.array([[1, 0], [0, 1], [1, 1], [1, -1]])
-    score_list1=[
-    (5,(0,1,1,0,0)),
-    (5,(0,0,1,1,0)),
-    (50,(1,0,1,1,0)),
-    (50,(1,1,0,1,0)),
-    (50,(0,1,1,1,0)),
-    (20,(0,0,1,1,1,2)),
-    (20,(2,1,1,1,0,0)),
-    (200,(1,1,1,0,1)),
-    (200,(1,0,1,1,1)),
-    (200,(1,1,0,1,1)),
-    (200,(0,1,1,1,1)),
-    (200,(1,1,1,1,0)),
-    (20000,(1,1,1,1,1)),##this is black
-    (-5,(0,2,2,0,0)),
-    (-5,(0,0,2,2,0)),
-    (-50,(2,0,2,2,0)),
-    (-50,(2,2,0,2,0)),
-    (-50,(0,2,2,2,0)),
-    (-20,(0,0,2,2,2,1)),
-    (-20,(1,2,2,2,0,0)),
-    (-200,(2,2,2,0,2)),
-    (-200,(2,0,2,2,2)),
-    (-200,(2,2,0,2,2)),
-    (-200,(0,2,2,2,2)),
-    (-200,(2,2,2,2,0)),
-    (-20000,(2,2,2,2,2))] 
-
+    score_list1={
+    (0,1,1,0,0):5,
+    (0,0,1,1,0):5,
+    (0,1,0,1,0):5,
+    (1,0,1,1,0):50,
+    (1,1,0,1,0):50,
+    (0,0,1,1,1,2):20,
+    (2,1,1,1,0,0):20,
+    (1,1,1,0,1):200,
+    (1,0,1,1,1):200,
+    (0,1,1,1,1):200,
+    (1,1,1,1,0):200,
+    (1,1,1,1,1):20000,
+    (0,2,0,2,0):-5,
+    (0,2,2,0,0):-5,
+    (0,0,2,2,0):-5,
+    (2,0,2,2,0):-50,
+    (2,2,0,2,0):-50,
+    (0,2,2,2,0):-50,
+    (0,0,2,2,2,1):-20,
+    (2,2,2,0,2):-200,
+    (2,0,2,2,2):-200,
+    (2,2,0,2,2):-200,
+    (0,2,2,2,2):-200,
+    (2,2,2,2,0):-200,
+    (2,2,2,2,2):-20000}
     def __init__(self):
         self.board = np.full((15, 15), -1)
         self.current_val=0
@@ -147,15 +145,15 @@ class ChessBoard:
                         pos_6=tuple(position)
                         pos2_5=tuple(k for k in pos2[0: -1])
                         pos2_6=tuple(pos2)
-                        for value,match in self.score_list1:
-                            if pos_5==match:
-                                score+=value
-                            if pos_6==match:
-                                score+=value
-                            if pos2_5==match:
-                                score-=value
-                            if pos2_6 == match:
-                                score-=value 
+                        if pos_5 in ChessBoard.score_list1:
+                            score+=ChessBoard.score_list1.get(pos_5)
+                        if pos_6 in ChessBoard.score_list1:
+                            score+=ChessBoard.score_list1.get(pos_6)
+                        if pos2_5 in ChessBoard.score_list1:
+                            score-=ChessBoard.score_list1.get(pos2_5)
+                        if pos2_6 in ChessBoard.score_list1:
+                            score-=ChessBoard.score_list1.get(pos2_6)
+
         
         return score
 
