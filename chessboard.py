@@ -46,20 +46,21 @@ class ChessBoard:
         self.cnt_grid = np.zeros((15, 15))
 
     def __str__(self):
-        ret = '  '
+        ret = ''
         for i in range(15):
-            ret += '%3d' % i
-        ret += '\n'
-        for i in range(15):
-            ret += '%3d' % i + ' '
+            ret += '%3d' % (14-i) + ' '
             for j in range(15):
-                if self.board[i, j] == -1:
+                if self.board[14-i, j] == -1:
                     ret += '·  '
-                elif self.board[i, j] == 0:
+                elif self.board[14-i, j] == 0:
                     ret += 'X  '
                 else:
                     ret += 'O  '
             ret += '\n'
+        ret += '  '
+        for i in range(15):
+            ret += '%3d' % i
+        ret += '\n'
         return ret
 
     def in_bound(x, y) -> bool:
